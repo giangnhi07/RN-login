@@ -47,7 +47,7 @@ const MainTabScreen = () => {
 				options={{
 					tabBarLabel: 'Explore',
 					tabBarColor: '#009387',
-					tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account" color={color} size={26} />,
+					tabBarIcon: ({ color }) => <MaterialCommunityIcons name="apps" color={color} size={26} />,
 				}}
 			/>
 		</Tab.Navigator>
