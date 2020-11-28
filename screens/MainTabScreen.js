@@ -24,10 +24,10 @@ const MainTabScreen = () => {
 				}}
 			/>
 			<Tab.Screen
-				name="DetailsS"
+				name="Details"
 				component={DetailsStackScreen}
 				options={{
-					tabBarLabel: 'DetailsS',
+					tabBarLabel: 'Details',
 					tabBarColor: '#1f65ff',
 					tabBarIcon: ({ color }) => <MaterialCommunityIcons name="bell" color={color} size={26} />,
 				}}
