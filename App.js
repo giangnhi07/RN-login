@@ -47,7 +47,7 @@ function App() {
 				console.log(e);
 			}
 		},
-		SignOut: () => {
+		SignOut: async () => {
 			setLoginState({
 				...LoginState,
 				isLoading: false,
