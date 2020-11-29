@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	View,
 	Text,
@@ -13,7 +13,9 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
 
-const SignInScreen = ({ navigation }) => {
+import { AuthContext } from '../utils/context';
+
+const SignInScreen = ({ navigation, route }) => {
 	const [data, setData] = useState({
 		username: '',
 		password: '',
@@ -21,17 +23,19 @@ const SignInScreen = ({ navigation }) => {
 		secureTextEntry: true,
 	});
 
+	const { SignIn } = useContext(AuthContext);
+
 	const textInputChange = (val) => {
 		if (val.length > 0) {
 			setData({
 				...data,
-				email: val,
+				username: val,
 				check_textInputChange: true,
 			});
 		} else {
 			setData({
 				...data,
-				email: val,
+				username: val,
 				check_textInputChange: false,
 			});
 		}
@@ -103,6 +107,7 @@ const SignInScreen = ({ navigation }) => {
 				<View style={styles.button}>
 					<TouchableOpacity
 						style={[styles.signIn, { backgroundColor: '#009387' }]}
+						onPress={() => SignIn(data.username, data.password)}
 					>
 						<Text style={[styles.textSign, { color: '#fff' }]}>
 							Sign in
