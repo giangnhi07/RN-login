@@ -8,6 +8,7 @@ import {
 	Platform,
 	Button,
 	StatusBar,
+	Alert,
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
@@ -15,7 +16,24 @@ import * as Animatable from 'react-native-animatable';
 
 import { AuthContext } from '../utils/context';
 
-const SignInScreen = ({ navigation, route }) => {
+const Users = [
+	{
+		id: 1,
+		email: 'user1@email.com',
+		username: 'user1',
+		password: 'password',
+		userToken: 'token123',
+	},
+	{
+		id: 2,
+		email: 'user2@email.com',
+		username: 'user2',
+		password: 'pass1234',
+		userToken: 'token12345',
+	},
+];
+
+const SignInScreen = ({ navigation }) => {
 	const [data, setData] = useState({
 		username: '',
 		password: '',
@@ -55,6 +73,29 @@ const SignInScreen = ({ navigation, route }) => {
 		});
 	};
 
+	const loginHandle = (username, password) => {
+		if (username.trim().length == 0 || password.trim().length == 0) {
+			Alert.alert(
+				'Wrong Input!',
+				'Username or password field cannot be empty.',
+				[{ text: 'Okay' }]
+			);
+			return;
+		}
+
+		const foundUser = Users.filter((user) => {
+			return username === user.username && password === user.password;
+		});
+
+		if ( foundUser.length == 0 ) {
+            Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+                {text: 'Okay'}
+            ]);
+            return;
+		}
+		
+		SignIn(foundUser);
+	};
 	return (
 		<View style={styles.container}>
 			<StatusBar backgroundColor="#009387" barStyle="light-content" />
@@ -104,10 +145,13 @@ const SignInScreen = ({ navigation, route }) => {
 						)}
 					</TouchableOpacity>
 				</View>
+
 				<View style={styles.button}>
 					<TouchableOpacity
 						style={[styles.signIn, { backgroundColor: '#009387' }]}
-						onPress={() => SignIn(data.username, data.password)}
+						onPress={() =>
+							loginHandle(data.username, data.password)
+						}
 					>
 						<Text style={[styles.textSign, { color: '#fff' }]}>
 							Sign in

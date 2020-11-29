@@ -32,33 +32,33 @@ function App() {
 	const [LoginState, setLoginState] = useState(initialLoginState);
 
 	const authContext = {
-		SignIn: async (username, password) => {
-			if (username === 'nam' && password === 'password') {
-				setLoginState({
-					...LoginState,
-					isLoading: false,
-					userToken: 'fghj',
-					userName: username,
-				});
-			}
+		SignIn: async (foundUser) => {
+			const userToken = String(foundUser[0].userToken);
+			const userName = foundUser[0].username;
 			try {
-				await AsyncStorage.setItem('userToken', 'fghj');
+				await AsyncStorage.setItem('userToken', userToken);
 			} catch (e) {
 				console.log(e);
 			}
-		},
-		SignOut: async () => {
 			setLoginState({
 				...LoginState,
 				isLoading: false,
-				userToken: null,
-				userToken: null,
+				userToken: userToken,
+				userName: userName,
 			});
+		},
+		SignOut: async () => {
 			try {
 				await AsyncStorage.removeItem('userToken');
 			} catch (e) {
 				console.log(e);
 			}
+			setLoginState({
+				...LoginState,
+				isLoading: false,
+				userToken: null,
+				userName: null,
+			});
 		},
 		RetrieveToken: (userToken) => {
 			setLoginState({
@@ -78,11 +78,13 @@ function App() {
 			} catch (e) {
 				console.log(e);
 			}
-			setLoginState({
-				...LoginState,
-				userToken: userToken,
-				isLoading: false,
-			});
+			authContext.RetrieveToken(userToken);
+			// setLoginState({
+			// 	...LoginState,
+			// 	userToken: userToken,
+			// 	isLoading: false,
+			// });
+
 		}, 1000);
 	}, []);
 
